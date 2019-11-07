@@ -14,6 +14,8 @@ using namespace std;
 *
 *	以后改，先留个标记
 *
+*	发现一个bug， 死循，先记一下，留着以后重构时注意	
+*
 */
 
 int TcpServer::recvHttp(TcpServer* const me, SOCKET sClient, sockaddr_in remoteAddr) {
