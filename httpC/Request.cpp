@@ -11,7 +11,7 @@ using json = nlohmann::json;
 using namespace std;
 
 void Request::requestPaser(string reqHeader, string reqBody) {
-	//cout << reqHeader;
+	//cout << reqHeader << endl << endl;
 	vector<string> tempHeader;
 	StringP::strSplit(reqHeader, tempHeader, "\r\n", 2);
 	if (tempHeader.size() > 1)
@@ -45,11 +45,7 @@ void Request::requestPaser(string reqHeader, string reqBody) {
 			}
 		}
 	}
-	//cout << this->reqHeaderData.dump(4);
-	if (this->url.length() > 1)
-	{
-		this->dataPaser(this->url, this->getData);
-	}
+
 	if (reqBody.length() > 0)
 	{
 		this->dataPaser(reqBody, this->postData);
@@ -85,7 +81,7 @@ void Request::dataPaser(string strData , json& data) {
 		}
 	}
 
-	//cout << data.dump(4) << endl;
+	cout << data.dump(4) << endl;
 
 }
 
