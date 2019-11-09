@@ -56,5 +56,14 @@
     <ClInclude Include="json.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RouterMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="registerRouterTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RegisterRouter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

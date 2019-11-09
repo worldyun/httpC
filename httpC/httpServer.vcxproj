@@ -158,6 +158,8 @@
     </ClCompile>
     <ClCompile Include="start.cpp">
       <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</SDLCheck>
+      <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</SDLCheck>
+      <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</SDLCheck>
     </ClCompile>
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="Response.cpp">
@@ -175,8 +177,11 @@
   <ItemGroup>
     <ClInclude Include="HttpServer.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="registerRouterTest.h" />
+    <ClInclude Include="RegisterRouter.h" />
     <ClInclude Include="Request.h" />
     <ClInclude Include="Response.h" />
+    <ClInclude Include="RouterMap.h" />
     <ClInclude Include="StringP.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="UrlCode.h" />

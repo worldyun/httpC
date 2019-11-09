@@ -4,6 +4,7 @@
 #include "Request.h"
 #include "Response.h"
 #include "json.hpp"
+#include "RouterMap.h"
 using json = nlohmann::json;
 using namespace std;
 
@@ -14,9 +15,18 @@ char* HttpServer::processData(string reqHeader, string reqBody) {
 	req.requestPaser(reqHeader, reqBody);
 	Response resp;
 
-	//cout << req.getPostData("txtPWD");
-	
-	auto resBody = R"(
+	 
+
+	string router = req.router;
+	RouterBaseClass *subClass = ForRouter(router);
+
+	if (subClass != nullptr)
+	{
+		subClass->doServer(req, resp);
+	}
+	else
+	{
+		auto resBody = R"(
 		{
 			"Hello": "Http !",
 			"Powered": "By",
@@ -25,16 +35,19 @@ char* HttpServer::processData(string reqHeader, string reqBody) {
 					"Author": "WorldYun",
 					"Time": 20191107,
 					"测试": "中文"
+				}
 			}
-		}
-	)"_json;
-	
+		)"_json;
 
-	resp.write(resBody);
-	resp.status = 301;
+
+		resp.write(resBody);
+	}
+	delete subClass;
+
+
+
 
 	string resData = resp.getResponse();
-	//cout << resData;
 	char* data = new char[resData.length()];
 	resData.copy(data, string::npos, 0);
 	return data;

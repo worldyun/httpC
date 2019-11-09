@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include "RegisterRouter.h"
 #include "HttpServer.h"
 
 using namespace std;
@@ -17,4 +18,6 @@ int main(int argc, char* argv[])
 	getchar();
 	return 0;
 }
+
+
 
