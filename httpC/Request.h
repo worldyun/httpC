@@ -14,6 +14,7 @@ private:
 public:
 	json postData;
 	json getData;
+	json cookies;
 	int status;
 	string url;
 	string router;

@@ -11,15 +11,15 @@ using namespace std;
 
 char* HttpServer::processData(string reqHeader, string reqBody) {
 	
+	//解析req, 并初始化resp
 	Request req;
 	req.requestPaser(reqHeader, reqBody);
 	Response resp;
-
+	resp.router = req.router;
 	 
-
+	//判断router
 	string router = req.router;
 	RouterBaseClass *subClass = ForRouter(router);
-
 	if (subClass != nullptr)
 	{
 		subClass->doServer(req, resp);
@@ -47,6 +47,8 @@ char* HttpServer::processData(string reqHeader, string reqBody) {
 
 
 
+
+	//生成resp数据并返回
 	string resData = resp.getResponse();
 	char* data = new char[resData.length()];
 	resData.copy(data, string::npos, 0);

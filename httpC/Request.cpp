@@ -11,6 +11,7 @@ using json = nlohmann::json;
 using namespace std;
 
 void Request::requestPaser(string reqHeader, string reqBody) {
+	//处理Http头
 	//cout << reqHeader;
 	vector<string> tempHeader;
 	StringP::strSplit(reqHeader, tempHeader, "\r\n", 2);
@@ -47,6 +48,30 @@ void Request::requestPaser(string reqHeader, string reqBody) {
 	}
 	//cout << this->reqHeaderData.dump(4);
 
+
+
+	//处理Cookies
+	if (this->reqHeaderData.find("Cookie") != this->reqHeaderData.end())
+	{
+		string strCookies = reqHeaderData.find("Cookie").value();
+		vector<string> vecCookies;
+		StringP::strSplit(strCookies, vecCookies, "; ", 2);
+		vector<string>::iterator iter;
+		for (iter = vecCookies.begin(); iter != vecCookies.end(); iter++)
+		{
+			vector<string> keyVlue;
+			StringP::strSplit(*iter, keyVlue, "=");
+			if (keyVlue.size() == 2)
+			{
+				this->cookies[keyVlue.at(0)] = keyVlue.at(1);
+			}
+		}
+	}
+	//cout << this->cookies.dump(4);
+
+
+	
+	//处理Post数据
 	if (reqBody.length() > 0)
 	{
 		this->dataPaser(reqBody, this->postData);

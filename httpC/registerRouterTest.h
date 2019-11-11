@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include "json.hpp"
+#include "Cookie.h"
 using namespace std;
 
 
@@ -25,10 +26,20 @@ RegisterRouter( "/test", registerRouterTest);
 
 void registerRouterTest::doServer(Request& req, Response& resp) {
 
+
+	Cookie cookie("Test123", "1234563789");
+	cookie.setPath("/test");
+	cookie.setMaxAge(60*60*24);
+	resp.setCookie(cookie);
+	resp.delCookie("Test123", "/test");
+	cout << req.cookies.dump(4);
+
+
+
 	string body = "Hello Router !";
 	resp.write(body);
 
-	//cout << req.getData.dump(4);
+	
 }
 
 registerRouterTest::registerRouterTest()

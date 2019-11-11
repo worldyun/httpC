@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cookie.cpp" />
     <ClCompile Include="HttpServer.cpp">
       <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</SDLCheck>
     </ClCompile>
@@ -175,6 +176,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cookie.h" />
     <ClInclude Include="HttpServer.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="registerRouterTest.h" />

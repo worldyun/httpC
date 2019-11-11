@@ -2,8 +2,11 @@
 #include <iostream> 
 #include <time.h>
 #include "json.hpp"
+#include "Cookie.h"
 using json = nlohmann::json;
 using namespace std;
+
+
 
 Response::Response() {
 	this->status = 200;
@@ -32,12 +35,17 @@ string Response::getResponse() {
 	{
 		rel += strmapIter->second;
 	}
-	rel += "\rContent-Type: ";
+	rel += "\r\nContent-Type: ";
 	rel += this->contentType;
-	rel += "\rdate: ";
+	rel += "\r\ndate: ";
 	rel += this->date;
-	rel += "\rContent-Length: ";
+	rel += "\r\nContent-Length: ";
 	rel += to_string(this->respBody.length());
+	if (!(this->cookies.empty())) {
+		rel += "\r\n";
+		rel += this->getCookies();
+	}
+	
 	rel += "\r\n\r\n";
 	rel += this->respBody;
 	return rel;
@@ -51,6 +59,57 @@ void Response::write(json writeBody) {
 void Response::write(string writeBody) {
 	this->respBody = writeBody;
 	this->contentType = "text/html; charset=UTF-8";
+}
+
+void Response::setCookie(string key, string value) {
+	//this->cookies[key] = value;
+	Cookie cookie(key, value);
+	cookie.path = this->router;
+	this->cookies.push_back(cookie);
+}
+void Response::setCookie(Cookie cookie) {
+	this->cookies.push_back(cookie);
+}
+
+void Response::delCookie(string key, string path) {
+	Cookie cookie(key, " ");
+	cookie.path = path;
+	cookie.maxAge = 0;
+	this->cookies.push_back(cookie);
+}
+
+string Response::getCookies() {
+	string cookies;
+	vector<Cookie>::iterator iter = this->cookies.begin();
+	for (; iter != this->cookies.end(); )
+	{
+		cookies += "Set-Cookie: ";
+		cookies += iter->key;
+		cookies += "=";
+		cookies += iter->value;
+		cookies += "; ";
+		cookies += "path=";
+		if (iter->path != "")
+		{
+			cookies += iter->path;
+		}
+		else
+		{
+			cookies += this->router;
+		}
+		if (iter->maxAge >= 0)
+		{
+			cookies += "; ";
+			cookies += "Max-Age=";
+			cookies += to_string(iter->maxAge);
+		}
+		iter++;
+		if (iter != this->cookies.end()) {
+			cookies += "\r\n";
+		}
+	}
+
+	return cookies;
 }
 
 void Response::writeHttpStatus(Response* me) {
